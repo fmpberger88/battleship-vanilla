@@ -1,5 +1,5 @@
-import { Player } from '../src/Player.jsx';
-import { Gameboard } from "../src/Gameboard.jsx";
+import { Player } from '../classes/Player.js';
+import { Gameboard } from "../classes/Gameboard.js";
 import {describe, it, beforeEach, expect} from "vitest";
 
 describe("Player test", () => {
