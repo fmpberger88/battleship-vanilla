@@ -1,13 +1,24 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BattleShip</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="main.js" defer></script>
+</head>
+<body>
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="game-over-message"> </h2>
+      <button id="newGameButton"> New Game </button>
+    </div>
+  </div>
+  <div id="game-container">
+    <h2>Your Board</h2>
+    <div id="humanBoard" class="board"></div>
+    <h2>Opponent's Board</h2>
+    <div id="computerBoard" class="board"></div>
+  </div>
+</body>
 </html>

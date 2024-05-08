@@ -116,20 +116,4 @@ export class Gameboard {
         }
         return null;
     }
-
-    clone() {
-        const newGameboard = new Gameboard(this.rows, this.cols);
-        newGameboard.board = this.board.map(row => [...row]);
-        newGameboard.shipParts = { ...this.shipParts };
-
-        // Deep clone of shipObjects
-        newGameboard.shipObjects = Object.keys(this.shipObjects).reduce((acc, key) => {
-            acc[key] = this.shipObjects[key].clone(); // Assuming clone exists on Ship object
-            return acc;
-        }, {});
-
-        newGameboard.totalShips = this.totalShips;
-        newGameboard.sunkShips = this.sunkShips;
-        return newGameboard;
-    }
 }

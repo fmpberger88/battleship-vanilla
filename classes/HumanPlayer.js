@@ -5,8 +5,8 @@ export class HumanPlayer extends Player {
         super(name, gameboard);
     }
 
-    attack(x, y, board) {
+    attack(x, y, gameboard) {
         // Verwenden Sie 'board' anstatt 'this.gameboard'
-        return super.attack(x, y, board);
+        return super.attack(x, y, gameboard);
     }
 }
