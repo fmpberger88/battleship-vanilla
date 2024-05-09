@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BattleShip</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js" defer></script>
 </head>
 <body>
-$END$
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2 id="game-over-message"> </h2>
+        <button id="newGameButton"> New Game </button>
+    </div>
+</div>
+<div id="shipSelector">
+    <div id="shipContainer"></div>
+    <div id="orientationControls"></div>
+    <div id="buttonContainer">
+        <button id="horizontalButton">Horizontal</button>
+        <button id="verticalButton">Vertikal</button>
+        <button id="randomButton">Place Ships Randomly</button>
+    </div>
+</div>
+<div id="game-container">
+    <div>
+        <h2>Your Board</h2>
+        <div id="humanBoard" class="board"></div>
+    </div>
+    <div>
+        <h2>Opponent's Board</h2>
+        <div id="computerBoard" class="board"></div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 export class Ship {
-    constructor(name, size) {
+    constructor(name, size, svg) {
         this.name = name;
         this.size = size;
+        this.svg = svg;
         this.parts = Array.from({length: size}, () => ({hit: false}));
     }
 
