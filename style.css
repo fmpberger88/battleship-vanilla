@@ -153,7 +153,7 @@ button:focus {
 
 #shipSelector {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     margin: 100px 0 0 0;
     justify-content: center;
     align-items: center;
@@ -172,8 +172,28 @@ button:focus {
     gap: 20px;
     align-items: center;
     justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .shipSvg {
     height: 50px;
+}
+
+#instructions {
+    min-width: 25%;
+    max-width: 25%;
+}
+
+#instructions p {
+    font-size: 1rem; /* Stellt eine angemessene Schriftgröße ein */
+    line-height: 1.2rem;
+    font-weight: bold;
+    color: black; /* Dunkelgraue Textfarbe für bessere Lesbarkeit */
+    background-color: rgba(70, 130, 180, 0.7);
+    padding: 10px; /* Innerer Abstand */
+    border-radius: 5px; /* Abgerundete Ecken */
+    margin: 20px; /* Äußerer Abstand zur Abtrennung von anderen Elementen */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Leichter Schatten für bessere Abhebung */
 }
