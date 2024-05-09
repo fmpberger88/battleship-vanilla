@@ -10,6 +10,13 @@ import ship4 from '/boat_7436540.svg'
 let currentShipOrientation = null;
 let currentShipSize = null;
 
+let shipTypes = [
+    { name: 'Zerstörer', size: 2, svg: ship1 },
+    { name: 'U-Boot', size: 3, svg: ship2 },
+    { name: 'Kreuzer', size: 4, svg: ship3 },
+    { name: 'Schlachtschiff', size: 5, svg: ship4 }
+];
+
 // Initialisierung der Spielbretter und Spieler
 const humanBoard = new Gameboard(10, 10);
 const computerBoard = new Gameboard(10, 10);
@@ -286,23 +293,38 @@ function clearPotentialPlacement(boardElement) {
     });
 }
 
-function placeShip(gameboard, shipElement, x, y, orientation) {
-    const shipTypes = [
-        { name: 'Zerstörer', size: 2 , svg: ship1},
-        { name: 'U-Boot', size: 3, svg: ship2 },
-        { name: 'Kreuzer', size: 4, svg: ship3 },
-        { name: 'Schlachtschiff', size: 5, svg: ship4 }
-    ];
+function placeShip(gameboard, shipElement, x, y, orientation, size) {
     const shipIndex = parseInt(shipElement.id.replace('ship', ''));
-    const ship = new Ship(shipTypes[shipIndex].name, shipTypes[shipIndex].size);
+    const ship = new Ship(shipTypes[shipIndex].name, size);
+
     try {
         gameboard.placeShip(ship, { x, y }, orientation);
+
+        // Gehe durch alle Zellen, die das Schiff belegen würde, und aktualisiere sie
+        for (let i = 0; i < size; i++) {
+            let targetCell;
+            if (orientation === 'horizontal') {
+                targetCell = document.querySelector(`.cell[data-row="${x}"][data-col="${y + i}"]`);
+            } else {
+                targetCell = document.querySelector(`.cell[data-row="${x + i}"][data-col="${y}"]`);
+            }
+
+            if (targetCell) {
+                targetCell.classList.add('ship');
+            }
+        }
+
+        // Entferne das Schiff-Element nach der Platzierung und deaktiviere das Ziehen
+        shipElement.remove();
+        shipElement.setAttribute('draggable', false);
+
+        // Aktualisiere das gesamte Spielfeld
         renderShips(gameboard, document.getElementById('humanBoard'), true);
-        shipElement.remove(); // Entferne das Schiff-Element nach der Platzierung
     } catch (error) {
         alert(`Error placing the ship: ${error.message}`);
     }
 }
+
 
 
 

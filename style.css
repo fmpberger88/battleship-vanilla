@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("public/143309207_3ce8e2c9-b982-4859-9355-5638dc6193ec.jpg");
+    background-image: url("/143309207_3ce8e2c9-b982-4859-9355-5638dc6193ec.jpg");
     background-repeat: no-repeat;
     background-size: cover; /* Das Bild wird so skaliert, dass es den Body-Bereich vollständig bedeckt, während das Seitenverhältnis beibehalten bleibt */
     background-position: center; /* Das Bild wird zentriert, egal ob es größer oder kleiner ist als der Body */
@@ -65,14 +65,19 @@ body {
 
 
 .hit {
-    background-image: url("public/explosion_3872640.svg");
+    background-image: url("/explosion_3872640.svg");
     background-size: cover;
+    animation: explode 1s;
    }
 
+@keyframes explode {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
 
 
 .sunk {
-    background-image: url("public/explosion_3872640.svg");
+    background-image: url("/explosion_3872640.svg");
     background-size: cover;
     background-color: #660000;
 }
