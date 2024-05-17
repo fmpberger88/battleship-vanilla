@@ -30,10 +30,4 @@ export class Ship {
     getIsSunk() {
         return this.parts.every(part => part.hit);
     }
-
-    clone() {
-        const newShip = Object.create(this);
-        newShip.parts = [...this.parts];
-        return newShip;
-    }
 }

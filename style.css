@@ -145,10 +145,19 @@ button {
     cursor: pointer;
 }
 
-button:focus {
+button.active {
     background-color: steelblue;
+    transition: padding 0.5s;
+    padding: 15px;
+    border: 2px solid black;
 }
 
+#randomButton:disabled {
+    background-color: #cccccc;
+    color: #6666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
 
 
 #shipSelector {

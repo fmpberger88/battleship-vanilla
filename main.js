@@ -11,13 +11,13 @@ let currentShipOrientation = null;
 let currentShipSize = null;
 
 let shipTypes = [
-    { name: 'Zerstörer', size: 2, svg: ship1 },
-    { name: 'U-Boot', size: 3, svg: ship2 },
-    { name: 'Kreuzer', size: 4, svg: ship3 },
-    { name: 'Schlachtschiff', size: 5, svg: ship4 }
+    { name: 'Destroyer', size: 2, svg: ship1 },
+    { name: 'Submarine', size: 3, svg: ship2 },
+    { name: 'Cruiser', size: 4, svg: ship3 },
+    { name: 'Battleship', size: 5, svg: ship4 }
 ];
 
-// Initialisierung der Spielbretter und Spieler
+// Initialize gameboards and players
 const humanBoard = new Gameboard(10, 10);
 const computerBoard = new Gameboard(10, 10);
 const humanPlayer = new Player('Human', humanBoard);
@@ -43,18 +43,18 @@ function createBoard(gameboard, boardElement, isClickable) {
             const cell = document.createElement('div');
             cell.dataset.row = i;
             cell.dataset.col = j;
-            cell.classList.add('cell'); // Zusätzliche Klasse für allgemeines Styling
+            cell.classList.add('cell'); // Additional class for general styling
             if (isClickable) {
                 cell.addEventListener('click', function onClick() {
                     const x = parseInt(cell.dataset.row);
                     const y = parseInt(cell.dataset.col);
-                    const ship = gameboard.getShipAt(x, y)
+                    const ship = gameboard.getShipAt(x, y);
                     userAttack(parseInt(i), parseInt(j));
-                    cell.removeEventListener('click', onClick); // Entfernt den Event Listener nach dem Klick
+                    cell.removeEventListener('click', onClick); // Remove the event listener after the click
                     if (ship && ship.parts[gameboard.getShipPartIndexAt(x, y)].hit) {
-                        cell.classList.add('hit')
+                        cell.classList.add('hit');
                     } else {
-                        cell.classList.add('attacked'); // Optional: Stil für bereits angegriffene Zellen
+                        cell.classList.add('attacked'); // Optional: style for already attacked cells
                     }
                 });
             }
@@ -63,13 +63,12 @@ function createBoard(gameboard, boardElement, isClickable) {
     }
 }
 
-
 function setupShips(gameboard) {
     const shipTypes = [
-        { name: 'Zerstörer', size: 2 , svg: ship1},
-        { name: 'U-Boot', size: 3, svg: ship2 },
-        { name: 'Kreuzer', size: 4, svg: ship3 },
-        { name: 'Schlachtschiff', size: 5, svg: ship4 }
+        { name: 'Destroyer', size: 2, svg: ship1 },
+        { name: 'Submarine', size: 3, svg: ship2 },
+        { name: 'Cruiser', size: 4, svg: ship3 },
+        { name: 'Battleship', size: 5, svg: ship4 }
     ];
 
     shipTypes.forEach(shipType => {
@@ -87,7 +86,7 @@ function setupShips(gameboard) {
                 placed = true;
             } catch (error) {
                 console.error(`Error placing ${shipType.name}: ${error.message}`);
-                // Keine Aktion, versuche es einfach noch einmal (während-Schleife)
+                // No action, just try again (while loop)
             }
         }
     });
@@ -96,7 +95,6 @@ function setupShips(gameboard) {
 function getShipIndex(shipName) {
     return shipTypes.findIndex(shipType => shipType.name === shipName);
 }
-
 
 function renderShips(gameboard, boardElement, showShips = false) {
     boardElement.childNodes.forEach(cell => {
@@ -120,28 +118,25 @@ function renderShips(gameboard, boardElement, showShips = false) {
     });
 }
 
-
-
-
 function userAttack(row, col) {
     const result = humanPlayer.attack(row, col, computerBoard);
 
     if (result.status) {
-        console.log(`Treffer bei (${row}, ${col})`);
+        console.log(`Hit at (${row}, ${col})`);
     } else {
-        console.log(`Verfehlt bei (${row}, ${col})`);
+        console.log(`Missed at (${row}, ${col})`);
     }
 
-    // Zeichnen Sie das Spielbrett neu, unabhängig vom Ergebnis des Angriffs
+    // Redraw the board regardless of the attack result
     renderShips(computerBoard, document.getElementById('computerBoard'), false);
 
-    // Überprüfen, ob alle Schiffe auf dem ComputerBoard versenkt wurden
+    // Check if all ships on the computer board have been sunk
     if (computerBoard.allShipsSunk()) {
-        console.log("Alle Schiffe des Computers wurden versenkt! Der Spieler gewinnt!");
-        gameOver(computerBoard, "Alle Schiffe des Computers wurden versenkt! Der Spieler gewinnt!")
+        console.log("All computer's ships have been sunk! The player wins!");
+        gameOver(computerBoard, "All computer's ships have been sunk! The player wins!")
     } else {
-        // Führe nach einer kurzen Verzögerung einen Gegenangriff des Computers durch
-        setTimeout(computerAttack, 1000);  // Verzögerung von 1000 Millisekunden (1 Sekunde)
+        // Execute a counter-attack from the computer after a short delay
+        setTimeout(computerAttack, 1000);  // 1000 milliseconds (1 second) delay
     }
 }
 
@@ -152,31 +147,31 @@ function computerAttack() {
     markCellAsAttackedBoard(document.getElementById('humanBoard'), row, col);
 
     if (result.status) {
-        console.log("Computer hat getroffen");
+        console.log("Computer hit");
     }
 
-    // Zeichnen Sie das Spielbrett neu, unabhängig vom Ergebnis des Angriffs
+    // Redraw the board regardless of the attack result
     renderShips(humanBoard, document.getElementById('humanBoard'), true);
 
-    // Überprüfen, ob alle Schiffe auf dem HumanBoard versenkt wurden
+    // Check if all ships on the human board have been sunk
     if (humanBoard.allShipsSunk()) {
-        console.log("Alle Schiffe des Spielers wurden versenkt! Der Computer gewinnt!");
-        gameOver(humanBoard, "Alle Schiffe des Spielers wurden versenkt! Der Computer gewinnt!")
+        console.log("All player's ships have been sunk! The computer wins!");
+        gameOver(humanBoard, "All player's ships have been sunk! The computer wins!")
     }
 }
 
 function markCellAsAttackedBoard(boardElement, row, col) {
-    // Hole alle Kinder (Zellen) des übergebenen boardElements
+    // Get all children (cells) of the passed boardElement
     let cells = Array.from(boardElement.childNodes);
 
-    // Finde die Zelle, die dem angegriffenen (row, col) koordiniert entspricht
+    // Find the cell corresponding to the attacked (row, col) coordinates
     const attackedCell = cells.find((cell) => {
         return (
             parseInt(cell.dataset.row) === row && parseInt(cell.dataset.col) === col
         );
     });
 
-    // Füge die Klasse 'attacked' zu dieser Zelle hinzu
+    // Add the 'attacked' class to this cell
     if (attackedCell) {
         attackedCell.classList.add("attacked");
     }
@@ -200,10 +195,10 @@ const gameOver = (board, message) => {
 function manualShipPlacement(gameboard, boardElement) {
     let currentShipIndex = 0;
     const shipTypes = [
-        { name: 'Zerstörer', size: 2, svg: ship1 },
-        { name: 'U-Boot', size: 3, svg: ship2 },
-        { name: 'Kreuzer', size: 4, svg: ship3 },
-        { name: 'Schlachtschiff', size: 5, svg: ship4 }
+        { name: 'Destroyer', size: 2, svg: ship1 },
+        { name: 'Submarine', size: 3, svg: ship2 },
+        { name: 'Cruiser', size: 4, svg: ship3 },
+        { name: 'Battleship', size: 5, svg: ship4 }
     ];
 
     const orientationControls = document.getElementById('orientationControls');
@@ -212,9 +207,13 @@ function manualShipPlacement(gameboard, boardElement) {
 
     horizontalButton.addEventListener('click', () => {
         currentShipOrientation = 'horizontal';
+        horizontalButton.classList.add('active');
+        verticalButton.classList.remove('active');
     });
     verticalButton.addEventListener('click', () => {
         currentShipOrientation = 'vertical';
+        verticalButton.classList.add('active');
+        horizontalButton.classList.remove('active');
     });
 
     shipTypes.forEach((shipType, index) => {
@@ -227,7 +226,7 @@ function manualShipPlacement(gameboard, boardElement) {
         shipElement.addEventListener('dragstart', function(e) {
             e.dataTransfer.setData('text/plain', this.id);
             e.dataTransfer.effectAllowed = 'move';
-            currentShipIndex = index; // Aktualisiere den aktuellen Index beim Start des Ziehens
+            currentShipIndex = index; // Update the current index when dragging starts
         });
 
         document.querySelector('#shipContainer').appendChild(shipElement);
@@ -240,7 +239,7 @@ function manualShipPlacement(gameboard, boardElement) {
         });
 
         cell.addEventListener('dragenter', function(e) {
-            e.preventDefault(); // Notwendig, um das drop-Event zu erlauben
+            e.preventDefault(); // Necessary to allow the drop event
         });
 
         cell.addEventListener('dragleave', function(e) {
@@ -260,10 +259,12 @@ function manualShipPlacement(gameboard, boardElement) {
             const x = parseInt(cell.dataset.row);
             const y = parseInt(cell.dataset.col);
             placeShip(gameboard, shipElement, x, y, currentShipOrientation, shipTypes[currentShipIndex].size);
+
+            // Disable the randomPlaceButton
+            document.querySelector('#randomButton').disabled = true;
         });
     });
 }
-
 
 function showPotentialPlacement(cell, orientation, size) {
     let row = parseInt(cell.dataset.row);
@@ -300,7 +301,7 @@ function placeShip(gameboard, shipElement, x, y, orientation, size) {
     try {
         gameboard.placeShip(ship, { x, y }, orientation);
 
-        // Gehe durch alle Zellen, die das Schiff belegen würde, und aktualisiere sie
+        // Iterate through all cells that the ship would occupy and update them
         for (let i = 0; i < size; i++) {
             let targetCell;
             if (orientation === 'horizontal') {
@@ -314,32 +315,39 @@ function placeShip(gameboard, shipElement, x, y, orientation, size) {
             }
         }
 
-        // Entferne das Schiff-Element nach der Platzierung und deaktiviere das Ziehen
+        // Remove the ship element after placement and disable dragging
         shipElement.remove();
         shipElement.setAttribute('draggable', false);
 
-        // Aktualisiere das gesamte Spielfeld
+        // Update the entire board
         renderShips(gameboard, document.getElementById('humanBoard'), true);
+        checkIfAllShipsPlaced();
     } catch (error) {
         alert(`Error placing the ship: ${error.message}`);
     }
 }
 
-
-
-
-
 function startGame() {
     const humanBoardElement = document.getElementById('humanBoard');
     manualShipPlacement(humanBoard, humanBoardElement);
+    document.querySelector('#verticalButton').classList.add('active')
 
-    // Button zum zufälligen Platzieren von Schiffen
+    // Button for random ship placement
     let randomPlacementButton = document.querySelector("#randomButton");
     randomPlacementButton.addEventListener('click', () => {
         setupShips(humanBoard);
         renderShips(humanBoard, humanBoardElement, true);
-        // Entferne manuelle Platzierungselemente
+        // Remove manual placement elements
         document.querySelectorAll('.shipSvg').forEach(elem => elem.remove());
         document.getElementById('orientationControls').style.display = 'none';
+        // Remove shipSelector UI
+        document.getElementById('shipSelector').style.display = 'none';
     });
+}
+
+function checkIfAllShipsPlaced() {
+    const remainingShips = document.querySelectorAll('.shipSvg').length;
+    if (remainingShips === 0) {
+        document.getElementById('shipSelector').style.display = 'none';
+    }
 }

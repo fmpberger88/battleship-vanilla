@@ -32,9 +32,4 @@ describe('Gameboard', () => {
         expect(result).toBe(ship);  // The returned object should match the placed ship
     });
 
-    test('clone', () => {
-        const clonedGameboard = gameboard.clone();
-        expect(clonedGameboard).not.toBe(gameboard); // They should not be the same object
-        expect(clonedGameboard.totalShips).toBe(gameboard.totalShips); // But the properties should be identical
-    });
 });
